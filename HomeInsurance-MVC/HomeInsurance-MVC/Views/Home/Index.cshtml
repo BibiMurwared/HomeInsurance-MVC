@@ -1,0 +1,61 @@
+﻿@*
+    File: Index.cshtml
+    Project: HomeInsurance-MVC
+    Author(s): Julia
+    Date: [Enter Date]
+    Description:
+    This view displays the Home page of the application. It introduces the
+    purpose of the system and provides a starting point for navigation.
+*@
+
+@* Purpose: Home page of the application.
+
+What it does
+
+This is the first page the user sees.
+
+It usually explains:
+
+what the app is
+what it is for
+where to go next
+Why it exists
+
+Gives the user a landing page and context.
+
+
+    Views
+
+This is the UI.
+
+These are .cshtml files.
+
+Each controller usually has a matching folder inside Views.
+
+Example structure:
+
+Views
+├── Home
+├── Items
+├── Account
+└── Shared
+
+What views do:
+
+display HTML pages
+show forms
+show lists of data
+show details pages
+
+Example:
+Views/Items/Index.cshtml shows the list of items.
+ *@
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
