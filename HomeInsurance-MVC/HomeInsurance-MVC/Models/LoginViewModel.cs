@@ -26,10 +26,25 @@ It only needs the fields entered during login.
 This keeps the code cleaner and safer.*/
 namespace HomeInsurance_MVC.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// The LoginViewModel class stores user input for the login form.
     /// </summary>
     public class LoginViewModel
     {
+        /// <summary>
+        /// Gets or sets the user email for sign in.
+        /// </summary>
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the plain password entered by the user.
+        /// </summary>
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = string.Empty;
     }
 }

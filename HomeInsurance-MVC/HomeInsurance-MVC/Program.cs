@@ -41,12 +41,31 @@ This is where the whole application is wired together.
  Think of it as:
  the place where the app is wired together.
 
-  */var builder = WebApplication.CreateBuilder(args);
+ */
+using HomeInsurance_MVC.Data;
+using HomeInsurance_MVC.Repositories;
+using HomeInsurance_MVC.Services;
+using Microsoft.EntityFrameworkCore;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+string? databaseConnectionString = builder.Configuration.GetConnectionString("HomeInventoryConnection");
+if (string.IsNullOrWhiteSpace(databaseConnectionString))
+{
+    throw new InvalidOperationException("Connection string 'HomeInventoryConnection' was not found.");
+}
 
-var app = builder.Build();
+builder.Services.AddDbContext<HomeInventoryContext>(options =>
+    options.UseSqlServer(databaseConnectionString));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IItemService, ItemService>();
+
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
