@@ -1,17 +1,20 @@
-/*wwwroot
+/*
+    File: site.css
+    Folder: wwwroot/css
+    Project: HomeInsurance-MVC
+    Author(s): Julia Jakob
+    Date: 2026-04-12
+    Description:
+    This stylesheet contains all global styles for the application,
+    including page backgrounds, navbar styling, form elements, and
+    responsive design utilities.
+*/
 
-This contains static files.
 
-Examples:
-
-CSS
-JS
-images
-
-Why it exists:
-
-browser-accessible files live here
-styling and scripts come from here*/
+body {
+    background-color: #DAD7CD;
+    margin-bottom: 60px;
+}
 
 html {
   font-size: 14px;
@@ -43,4 +46,26 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/*== INDEX PAGE STYLES ==*/
+.welcome-title {
+    color: #344E41;
+}
+
+.welcome-subtitle {
+    color: #3A5A40;
+    font-size: x-large;
+}
+
+.welcome-message {
+    color: #3A5A40;
+}
+
+.container-fluid {
+    color: #F0EAD6;
+}
+
+.navbar-brand {
+    color:#344E41;
 }
