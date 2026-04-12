@@ -34,26 +34,25 @@
 
                     <div class="mb-3">
                         <label asp-for="FullName" class="form-label"></label>
-                        <input asp-for="FullName" class="form-control" placeholder="Enter your full name:" autocomplete="name" />
+                        <input asp-for="FullName" class="form-control" placeholder="Enter your full name" autocomplete="name" />
                         <span asp-validation-for="FullName" class="text-danger small"></span>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Email" class="form-label"></label>
-                        <input asp-for="Email" class="form-control" placeholder="Enter your email address:" autocomplete="email" />
+                        <input asp-for="Email" class="form-control" placeholder="Enter your email address" autocomplete="email" />
                         <span asp-validation-for="Email" class="text-danger small"></span>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="PhoneNumber" class="form-label"></label>
-                        <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number (optional):" autocomplete="tel" />
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number (optional)" autocomplete="tel" />
                         <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Password" class="form-label"></label>
                         <input asp-for="Password" class="form-control" autocomplete="new-password" />
-                        <div class="form-text">Use a strong password.</div>
                         <span asp-validation-for="Password" class="text-danger small"></span>
                     </div>
 
@@ -63,7 +62,7 @@
                         <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
                     </div>
                   
-                    <button type="submit" class="btn btn-primary w-100 mb-3">Create Account!</button>
+                    <button type="submit" class="button-style w-100 mb-3">Register!</button>
                 </form>
 
                 <div class="text-center">

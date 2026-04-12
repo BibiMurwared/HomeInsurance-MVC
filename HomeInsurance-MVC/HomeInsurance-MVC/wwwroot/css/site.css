@@ -69,3 +69,11 @@ body {
 .navbar-brand {
     color:#344E41;
 }
+
+.button-style {
+    background: #588157;
+    color:white;
+    border: none;
+    padding: 10px;
+    width:75%;
+}
