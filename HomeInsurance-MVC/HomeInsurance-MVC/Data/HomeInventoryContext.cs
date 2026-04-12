@@ -57,7 +57,7 @@ namespace HomeInsurance_MVC.Data
         /// <summary>
         /// Initializes a new context instance with options.
         /// </summary>
-        public HomeInventoryContext(DbContextOptions<HomeInventoryContext> options)
+        public HomeInventoryContext(DbContextOptions<HomeInventoryContext> options) 
             : base(options)
         {
         }
