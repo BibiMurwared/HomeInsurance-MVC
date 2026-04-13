@@ -3,7 +3,7 @@
  * File: Program.cs
  * Project: HomeInsurance-MVC
  * Author(s): Mohammad, Julia, BIbi
- * Date: [Enter Date]
+ * Date: April 11, 2026
  * Description:
  * This file contains the startup and configuration logic for the application.
  * It registers services, configures middleware, sets routing rules, and prepares
@@ -58,7 +58,8 @@ if (string.IsNullOrWhiteSpace(databaseConnectionString))
 }
 
 builder.Services.AddDbContext<HomeInventoryContext>(options =>
-    options.UseSqlServer(databaseConnectionString));
+    options.UseSqlServer(databaseConnectionString, sqlOptions =>
+        sqlOptions.EnableRetryOnFailure()));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
@@ -76,11 +77,9 @@ builder.Services.AddSession(options =>
 
 WebApplication app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

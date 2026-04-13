@@ -108,9 +108,6 @@ namespace HomeInsurance_MVC.Models
         [StringLength(ValidationConstants.SerialNumberMaxLength)]
         public string? SerialNumber { get; set; }
 
-        [StringLength(ValidationConstants.ImageUrlMaxLength)]
-        public string? ImageURL { get; set; }
-
         [Required]
         public Guid UserID { get; set; }
 

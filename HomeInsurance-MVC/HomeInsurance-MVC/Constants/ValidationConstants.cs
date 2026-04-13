@@ -46,11 +46,6 @@ namespace HomeInsurance_MVC.Constants
         public const int SerialNumberMaxLength = 100;
 
         /// <summary>
-        /// Defines max length for image URL.
-        /// </summary>
-        public const int ImageUrlMaxLength = 500;
-
-        /// <summary>
         /// Defines max password length.
         /// </summary>
         public const int PasswordMaxLength = 100;

@@ -64,7 +64,6 @@ namespace HomeInsurance_MVC.Services
                 existingItem.PurchaseDate = item.PurchaseDate;
                 existingItem.RoomLocation = item.RoomLocation;
                 existingItem.SerialNumber = item.SerialNumber;
-                existingItem.ImageURL = item.ImageURL;
                 await _itemRepository.UpdateAsync(existingItem);
                 wasUpdated = true;
             }

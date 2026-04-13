@@ -77,3 +77,166 @@ body {
     padding: 10px;
     width:75%;
 }
+
+
+/*== ITEMS INDEX PAGE STYLES ==*/
+.items-header {
+    color: #344E41;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid #588157;
+    padding-bottom: 1rem;
+}
+
+    .items-header h1 {
+        font-weight: 700;
+        color: #344E41;
+    }
+
+.items-add-btn {
+    background-color: #588157;
+    border-color: #588157;
+    color: white;
+    font-weight: 500;
+    padding: 0.6rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+    .items-add-btn:hover {
+        background-color: #3A5A40;
+        border-color: #3A5A40;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+.items-table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+    .items-table thead {
+        background-color: #588157;
+        color: white;
+    }
+
+        .items-table thead th {
+            font-weight: 600;
+            padding: 1rem;
+            border: none;
+            color: white;
+        }
+
+    .items-table tbody tr {
+        border-bottom: 1px solid #E8E8E8;
+        transition: background-color 0.2s ease;
+    }
+
+        .items-table tbody tr:hover {
+            background-color: #F5F5F5;
+        }
+
+    .items-table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+        color: #344E41;
+    }
+
+    .items-table .badge {
+        background-color: #A4AC86;
+        color: white;
+        padding: 0.4rem 0.8rem;
+        font-weight: 500;
+    }
+
+.items-empty-alert {
+    background-color: #D4E8D4;
+    border-color: #588157;
+    color: #3A5A40;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+    .items-empty-alert p {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #344E41;
+    }
+
+    .items-empty-alert a {
+        color: #588157;
+        font-weight: 600;
+        text-decoration: none;
+        border-bottom: 2px solid #588157;
+    }
+
+        .items-empty-alert a:hover {
+            color: #3A5A40;
+            border-bottom-color: #3A5A40;
+        }
+
+.items-action-btn {
+    font-size: 0.875rem;
+    padding: 0.4rem 0.8rem;
+    margin-right: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+    .items-action-btn.btn-info {
+        background-color: #588157;
+        border-color: #588157;
+    }
+
+        .items-action-btn.btn-info:hover {
+            background-color: #3A5A40;
+            border-color: #3A5A40;
+        }
+
+    .items-action-btn.btn-warning {
+        background-color: #B8860B;
+        border-color: #B8860B;
+        color: white;
+    }
+
+        .items-action-btn.btn-warning:hover {
+            background-color: #8B6914;
+            border-color: #8B6914;
+        }
+
+    .items-action-btn.btn-danger {
+        background-color: #A84C3C;
+        border-color: #A84C3C;
+    }
+
+        .items-action-btn.btn-danger:hover {
+            background-color: #8B3E31;
+            border-color: #8B3E31;
+        }
+
+.items-footer {
+    color: #3A5A40;
+    font-weight: 500;
+    padding-top: 1rem;
+    border-top: 2px solid #588157;
+}
+
+@media (max-width: 768px) {
+    .items-table {
+        font-size: 0.9rem;
+    }
+
+    .items-action-btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.5rem;
+        margin-right: 0;
+    }
+
+    .items-header {
+        flex-direction: column;
+    }
+}
