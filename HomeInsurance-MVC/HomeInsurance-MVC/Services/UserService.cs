@@ -32,24 +32,6 @@ namespace HomeInsurance_MVC.Services
         }
 
         /// <summary>
-        /// Gets all active users.
-        /// </summary>
-        public async Task<List<User>> GetAllAsync()
-        {
-            List<User> users = await _userRepository.GetAllAsync();
-            return users;
-        }
-
-        /// <summary>
-        /// Gets one user by identifier.
-        /// </summary>
-        public async Task<User?> GetByIdAsync(Guid userId)
-        {
-            User? user = await _userRepository.GetByIdAsync(userId);
-            return user;
-        }
-
-        /// <summary>
         /// Registers a user with hashed password.
         /// </summary>
         public async Task<User> RegisterAsync(string fullName, string email, string password, string? phoneNumber)
@@ -89,29 +71,6 @@ namespace HomeInsurance_MVC.Services
             }
 
             return authenticatedUser;
-        }
-
-        /// <summary>
-        /// Updates account profile fields.
-        /// </summary>
-        public async Task UpdateProfileAsync(Guid userId, string fullName, string? phoneNumber, bool isActive)
-        {
-            User? user = await _userRepository.GetByIdAsync(userId);
-            if (user is not null)
-            {
-                user.FullName = fullName;
-                user.PhoneNumber = phoneNumber;
-                user.IsActive = isActive;
-                await _userRepository.UpdateAsync(user);
-            }
-        }
-
-        /// <summary>
-        /// Soft deletes the account.
-        /// </summary>
-        public async Task SoftDeleteAsync(Guid userId)
-        {
-            await _userRepository.SoftDeleteAsync(userId);
         }
     }
 }

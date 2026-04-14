@@ -27,17 +27,16 @@ namespace HomeInsurance_MVC.Controllers
         /// <returns>The Home Index view.</returns>
         public IActionResult Index()
         {
-            IActionResult result = View();
-            return result;
-        }
-
-        /// <summary>
-        /// Displays the privacy page.
-        /// </summary>
-        /// <returns>The Privacy view.</returns>
-        public IActionResult Privacy()
-        {
-            IActionResult result = View();
+            IActionResult result;
+            string? sessionUserId = HttpContext.Session.GetString("CurrentUserId");
+            if (!string.IsNullOrEmpty(sessionUserId))
+            {
+                result = RedirectToAction("Index", "Items");
+            }
+            else
+            {
+                result = View();
+            }
             return result;
         }
 

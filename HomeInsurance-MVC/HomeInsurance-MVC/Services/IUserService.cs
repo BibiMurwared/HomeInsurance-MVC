@@ -19,16 +19,6 @@ namespace HomeInsurance_MVC.Services
     public interface IUserService
     {
         /// <summary>
-        /// Gets all active users.
-        /// </summary>
-        Task<List<User>> GetAllAsync();
-
-        /// <summary>
-        /// Gets one user by identifier.
-        /// </summary>
-        Task<User?> GetByIdAsync(Guid userId);
-
-        /// <summary>
         /// Registers a user with hashed password.
         /// </summary>
         Task<User> RegisterAsync(string fullName, string email, string password, string? phoneNumber);
@@ -37,15 +27,5 @@ namespace HomeInsurance_MVC.Services
         /// Validates login credentials for one user.
         /// </summary>
         Task<User?> ValidateCredentialsAsync(string email, string password);
-
-        /// <summary>
-        /// Updates account profile fields.
-        /// </summary>
-        Task UpdateProfileAsync(Guid userId, string fullName, string? phoneNumber, bool isActive);
-
-        /// <summary>
-        /// Soft deletes the account.
-        /// </summary>
-        Task SoftDeleteAsync(Guid userId);
     }
 }
