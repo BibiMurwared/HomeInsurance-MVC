@@ -45,13 +45,10 @@ builder.Services.AddSession(options =>
 
 WebApplication app = builder.Build();
 
-// Ensure the database exists and all migrations are applied on startup.
-// If SQL Server is unreachable this throws immediately with the real
-// underlying exception instead of a later RetryLimitExceededException.
 using (IServiceScope startupScope = app.Services.CreateScope())
 {
     HomeInventoryContext databaseContext = startupScope.ServiceProvider.GetRequiredService<HomeInventoryContext>();
-    databaseContext.Database.Migrate();
+    databaseContext.Database.EnsureCreated();
 }
 
 if (!app.Environment.IsDevelopment())
