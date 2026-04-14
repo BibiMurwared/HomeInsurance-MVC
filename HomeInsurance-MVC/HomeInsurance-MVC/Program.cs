@@ -14,6 +14,7 @@ using HomeInsurance_MVC.Data;
 using HomeInsurance_MVC.Middleware;
 using HomeInsurance_MVC.Repositories;
 using HomeInsurance_MVC.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -36,13 +37,14 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<ILogService, LogService>();
 
-builder.Services.AddDistributedMemoryCache();
-
-builder.Services.AddSession(options =>
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.Cookie.Name = "HomeInsuranceAuthCookie";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.SlidingExpiration = true;
 });
 
 WebApplication app = builder.Build();
@@ -64,7 +66,7 @@ app.UseMiddleware<ExceptionLoggingMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseSession();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

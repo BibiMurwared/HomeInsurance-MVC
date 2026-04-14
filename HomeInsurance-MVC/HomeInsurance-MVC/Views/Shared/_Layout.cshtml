@@ -11,9 +11,8 @@
 
 
 @{
-    string? currentUserId = Context.Session.GetString("CurrentUserId");
-    string? currentUserName = Context.Session.GetString("CurrentUserName");
-    bool isLoggedIn = !string.IsNullOrEmpty(currentUserId);
+    bool isLoggedIn = User.Identity?.IsAuthenticated ?? false;
+    string currentUserName = User.Identity?.Name ?? string.Empty;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +53,10 @@
                                 <span class="nav-link text-dark">Hello, @currentUserName</span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="nav-link btn btn-link text-dark p-0">Logout</button>
+                                </form>
                             </li>
                         }
                         else

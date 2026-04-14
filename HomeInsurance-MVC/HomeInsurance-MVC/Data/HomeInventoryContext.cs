@@ -89,6 +89,8 @@ namespace HomeInsurance_MVC.Data
 
             modelBuilder.Entity<Item>()
                 .HasQueryFilter(item => !item.IsDeleted);
+
+            return;
         }
     }
 }

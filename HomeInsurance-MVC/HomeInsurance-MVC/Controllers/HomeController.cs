@@ -28,8 +28,8 @@ namespace HomeInsurance_MVC.Controllers
         public IActionResult Index()
         {
             IActionResult result;
-            string? sessionUserId = HttpContext.Session.GetString("CurrentUserId");
-            if (!string.IsNullOrEmpty(sessionUserId))
+            bool isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+            if (isAuthenticated)
             {
                 result = RedirectToAction("Index", "Items");
             }

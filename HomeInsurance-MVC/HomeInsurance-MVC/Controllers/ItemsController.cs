@@ -12,8 +12,9 @@
 
 using HomeInsurance_MVC.Models;
 using HomeInsurance_MVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 
 namespace HomeInsurance_MVC.Controllers
 {
@@ -22,6 +23,7 @@ namespace HomeInsurance_MVC.Controllers
     /// It provides CRUD functionality and connects item data to the user interface.
     /// All actions require an authenticated session.
     /// </summary>
+    [Authorize]
     public class ItemsController : Controller
     {
         private readonly IItemService _itemService;
@@ -38,28 +40,12 @@ namespace HomeInsurance_MVC.Controllers
         }
 
         /// <summary>
-        /// Enforces authentication on every action in this controller by redirecting
-        /// unauthenticated visitors to the Login page.
-        /// </summary>
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            string? sessionUserId = HttpContext.Session.GetString("CurrentUserId");
-            if (string.IsNullOrEmpty(sessionUserId))
-            {
-                context.Result = RedirectToAction("Login", "Account");
-            }
-
-            base.OnActionExecuting(context);
-        }
-
-        /// <summary>
-        /// Gets the current user identifier from session storage.
-        /// Assumes OnActionExecuting has already verified the session value exists.
+        /// Gets the current user identifier from cookie claims.
         /// </summary>
         /// <returns>The current user's unique identifier.</returns>
         private Guid GetCurrentUserId()
         {
-            string? sessionUserId = HttpContext.Session.GetString("CurrentUserId");
+            string? sessionUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Guid currentUserId = Guid.Parse(sessionUserId!);
             return currentUserId;
         }

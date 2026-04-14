@@ -12,7 +12,11 @@
 
 using HomeInsurance_MVC.Models;
 using HomeInsurance_MVC.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace HomeInsurance_MVC.Controllers
 {
@@ -39,6 +43,7 @@ namespace HomeInsurance_MVC.Controllers
         /// Displays the user registration form.
         /// </summary>
         /// <returns>The Register view.</returns>
+        [AllowAnonymous]
         public IActionResult Register()
         {
             IActionResult result = View();
@@ -51,6 +56,7 @@ namespace HomeInsurance_MVC.Controllers
         /// <param name="model">The registration data entered by the user.</param>
         /// <returns>A redirect to Login if successful; otherwise the Register view.</returns>
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -98,8 +104,10 @@ namespace HomeInsurance_MVC.Controllers
         /// Displays the login form.
         /// </summary>
         /// <returns>The Login view.</returns>
-        public IActionResult Login()
+        [AllowAnonymous]
+        public IActionResult Login(string? returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             IActionResult result = View();
             return result;
         }
@@ -110,10 +118,12 @@ namespace HomeInsurance_MVC.Controllers
         /// <param name="model">The login data entered by the user.</param>
         /// <returns>A redirect to Items if successful; otherwise the Login view.</returns>
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             IActionResult result;
+            string resolvedReturnUrl = returnUrl ?? Url.Content("~/")!;
 
             if (ModelState.IsValid)
             {
@@ -132,8 +142,29 @@ namespace HomeInsurance_MVC.Controllers
                 }
                 else
                 {
-                    HttpContext.Session.SetString("CurrentUserId", authenticatedUser.UserID.ToString());
-                    HttpContext.Session.SetString("CurrentUserName", authenticatedUser.FullName);
+                    List<Claim> claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, authenticatedUser.UserID.ToString()),
+                        new Claim(ClaimTypes.Name, authenticatedUser.FullName),
+                        new Claim(ClaimTypes.Email, authenticatedUser.Email)
+                    };
+
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(
+                        claims,
+                        CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                    AuthenticationProperties authenticationProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = false,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
+                    };
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        claimsPrincipal,
+                        authenticationProperties);
 
                     await _logService.LogUserEventAsync(
                         authenticatedUser.UserID,
@@ -141,7 +172,7 @@ namespace HomeInsurance_MVC.Controllers
                         "User login successful.",
                         true);
 
-                    result = RedirectToAction("Index", "Items");
+                    result = LocalRedirect(resolvedReturnUrl);
                 }
             }
             else
@@ -162,9 +193,11 @@ namespace HomeInsurance_MVC.Controllers
         /// Logs the user out of the application by clearing the session.
         /// </summary>
         /// <returns>A redirect to the Home page.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            string? sessionUserId = HttpContext.Session.GetString("CurrentUserId");
+            string? sessionUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Guid? userId = null;
             if (!string.IsNullOrWhiteSpace(sessionUserId))
             {
@@ -177,7 +210,7 @@ namespace HomeInsurance_MVC.Controllers
                 "User logged out.",
                 true);
 
-            HttpContext.Session.Clear();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             IActionResult result = RedirectToAction("Index", "Home");
             return result;
         }
