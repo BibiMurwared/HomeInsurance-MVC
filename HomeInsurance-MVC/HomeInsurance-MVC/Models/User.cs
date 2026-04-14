@@ -2,39 +2,13 @@
  * File: User.cs
  * Project: HomeInsurance-MVC
  * Author(s): Mohammad
- * Date: [Enter Date]
+ * Date: 2026-04-13
  * Description:
  * This model represents a registered user of the application. It stores
  * account-related information required for authentication, authorization,
  * and ownership of inventory items.
  */
 
-/*Purpose: Represents an application user.
-
-What it does
-
-Defines the data for a registered user.
-
-Typical fields:
-
-UserID
-FullName
-Email
-PasswordHash
-PhoneNumber
-IsActive
-IsDeleted
-CreatedDate
-Why it exists
-
-The system needs to know:
-
-who is logged in
-which items belong to which user
-How it connects
-Used by AccountController
-Saved through HomeInventoryContext
-Linked to items by UserID*/
 namespace HomeInsurance_MVC.Models
 {
     using HomeInsurance_MVC.Constants;

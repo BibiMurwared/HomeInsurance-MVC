@@ -8,22 +8,7 @@
     This shared layout defines the common structure of the application's pages,
     including navigation, page container, footer, and shared styling/scripts.
 *@
-@* Purpose: Main layout template for all pages.
 
-What it does
-
-This file contains:
-
-navbar
-footer
-common page structure
-shared CSS/JS references
-
-All views are rendered inside this layout unless changed.
-
-Why it exists
-
-It avoids repeating the same HTML in every page. *@
 
 @{
     string? currentUserId = Context.Session.GetString("CurrentUserId");

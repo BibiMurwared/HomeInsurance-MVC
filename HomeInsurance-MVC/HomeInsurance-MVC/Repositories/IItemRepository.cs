@@ -1,3 +1,14 @@
+/*
+ * File: IItemRepository.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-13
+ * Description:
+ * This interface defines the contract for item-related database operations.
+ * It specifies the methods required to retrieve, create, update, and delete
+ * inventory items associated with a specific user.
+ */
+
 namespace HomeInsurance_MVC.Repositories
 {
     using HomeInsurance_MVC.Models;

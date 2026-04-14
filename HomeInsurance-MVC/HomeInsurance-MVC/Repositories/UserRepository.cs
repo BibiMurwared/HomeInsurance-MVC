@@ -1,3 +1,13 @@
+/*
+ * File: UserRepository.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-13
+ * Description:
+ * This class implements the IUserRepository interface using Entity Framework Core.
+ * It manages all database interactions related to users, including retrieval,
+ * registration, updates, and soft deletion of user accounts.
+ */
 namespace HomeInsurance_MVC.Repositories
 {
     using HomeInsurance_MVC.Data;

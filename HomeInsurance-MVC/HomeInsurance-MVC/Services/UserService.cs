@@ -1,3 +1,14 @@
+/*
+ * File: UserService.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-13
+ * Description:
+ * This class implements the IUserService interface and contains the business logic
+ * for user account management. It handles operations such as user registration,
+ * authentication, password hashing using BCrypt, profile updates, and account
+ * deactivation, while delegating data access to the repository layer.
+ */
 namespace HomeInsurance_MVC.Services
 {
     using HomeInsurance_MVC.Models;

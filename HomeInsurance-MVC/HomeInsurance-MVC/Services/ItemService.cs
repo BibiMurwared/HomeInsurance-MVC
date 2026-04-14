@@ -1,3 +1,14 @@
+/*
+ * File: ItemService.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-13
+ * Description:
+ * This class implements the IItemService interface and contains the business logic
+ * for managing inventory items. It acts as an intermediary between controllers and
+ * the data access layer, ensuring proper processing of item data before interacting
+ * with the repository.
+ */
 namespace HomeInsurance_MVC.Services
 {
     using HomeInsurance_MVC.Models;

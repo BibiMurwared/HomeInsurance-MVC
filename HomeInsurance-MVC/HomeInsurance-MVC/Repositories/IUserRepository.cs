@@ -1,3 +1,13 @@
+/*
+ * File: IUserRepository.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-13
+ * Description:
+ * This interface defines the contract for user-related database operations.
+ * It includes methods for retrieving users, creating new accounts, updating
+ * user information, and performing soft deletion of user records.
+ */
 namespace HomeInsurance_MVC.Repositories
 {
     using HomeInsurance_MVC.Models;

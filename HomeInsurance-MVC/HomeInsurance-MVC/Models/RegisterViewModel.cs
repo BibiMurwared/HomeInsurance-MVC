@@ -2,7 +2,7 @@
  * File: RegisterViewModel.cs
  * Project: HomeInsurance-MVC
  * Author(s): Mohammad, Julia
- * Date: [Enter Date]
+ * Date: 2026-04-13
  * Description:
  * This view model stores the input fields required to register a new user.
  * It is used to transfer registration data between the Register view

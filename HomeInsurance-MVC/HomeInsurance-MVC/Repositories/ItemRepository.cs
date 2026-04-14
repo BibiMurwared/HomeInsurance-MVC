@@ -1,3 +1,14 @@
+/*
+ * File: ItemRepository.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-13
+ * Description:
+ * This class implements the IItemRepository interface using Entity Framework Core.
+ * It handles all database operations related to inventory items, including retrieving,
+ * creating, updating, and soft deleting items for a specific user.
+ */
+
 namespace HomeInsurance_MVC.Repositories
 {
     using HomeInsurance_MVC.Data;

@@ -10,38 +10,6 @@
  * the MVC application to run.
  */
 
-
- /*
-  * Purpose: Application startup and configuration.
-
-What it does
-
-This file configures:
-
-MVC services
-database context
-middleware
-routing
-authentication later
-authorization later
-Why it exists
-
-This is where the whole application is wired together.
-  * Program.cs
-
- This is the startup file.
-
- It sets up:
-
- MVC services
- database connection
- routing
- authentication later
-
- Think of it as:
- the place where the app is wired together.
-
- */
 using HomeInsurance_MVC.Data;
 using HomeInsurance_MVC.Repositories;
 using HomeInsurance_MVC.Services;

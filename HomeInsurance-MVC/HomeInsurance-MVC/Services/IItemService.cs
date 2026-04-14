@@ -1,3 +1,13 @@
+/*
+ * File: IItemService.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-13
+ * Description:
+ * This interface defines the business logic operations for managing inventory items.
+ * It provides methods for retrieving, creating, updating, and soft deleting items
+ * associated with a specific user.
+ */
 namespace HomeInsurance_MVC.Services
 {
     using HomeInsurance_MVC.Models;
