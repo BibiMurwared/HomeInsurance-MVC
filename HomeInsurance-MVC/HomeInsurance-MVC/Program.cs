@@ -11,6 +11,7 @@
  */
 
 using HomeInsurance_MVC.Data;
+using HomeInsurance_MVC.Middleware;
 using HomeInsurance_MVC.Repositories;
 using HomeInsurance_MVC.Services;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<ILogService, LogService>();
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -48,7 +50,7 @@ WebApplication app = builder.Build();
 using (IServiceScope startupScope = app.Services.CreateScope())
 {
     HomeInventoryContext databaseContext = startupScope.ServiceProvider.GetRequiredService<HomeInventoryContext>();
-    databaseContext.Database.EnsureCreated();
+    databaseContext.Database.Migrate();
 }
 
 if (!app.Environment.IsDevelopment())
@@ -56,6 +58,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+app.UseMiddleware<ExceptionLoggingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseRouting();

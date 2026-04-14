@@ -40,6 +40,16 @@ namespace HomeInsurance_MVC.Data
         public DbSet<Item> Items { get; set; }
 
         /// <summary>
+        /// Gets or sets the user log table mapping.
+        /// </summary>
+        public DbSet<UserLog> UserLogs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the system log table mapping.
+        /// </summary>
+        public DbSet<SystemLog> SystemLogs { get; set; }
+
+        /// <summary>
         /// Configures keys, relationships, and constraints.
         /// </summary>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -60,6 +70,18 @@ namespace HomeInsurance_MVC.Data
 
             modelBuilder.Entity<Item>()
                 .Property(item => item.CreatedDate)
+                .HasDefaultValueSql("GETUTCDATE()");
+
+            modelBuilder.Entity<Item>()
+                .Property(item => item.EstimatedValue)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<UserLog>()
+                .Property(userLog => userLog.CreatedDate)
+                .HasDefaultValueSql("GETUTCDATE()");
+
+            modelBuilder.Entity<SystemLog>()
+                .Property(systemLog => systemLog.CreatedDate)
                 .HasDefaultValueSql("GETUTCDATE()");
 
             modelBuilder.Entity<User>()

@@ -23,14 +23,16 @@ namespace HomeInsurance_MVC.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ILogService _logService;
 
         /// <summary>
         /// Initializes a new instance of the AccountController class.
         /// </summary>
         /// <param name="userService">The user service used for account operations.</param>
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, ILogService logService)
         {
             _userService = userService;
+            _logService = logService;
         }
 
         /// <summary>
@@ -58,16 +60,28 @@ namespace HomeInsurance_MVC.Controllers
             {
                 try
                 {
-                    await _userService.RegisterAsync(
+                    User registeredUser = await _userService.RegisterAsync(
                         model.FullName,
                         model.Email,
                         model.Password,
                         model.PhoneNumber);
 
+                    await _logService.LogUserEventAsync(
+                        registeredUser.UserID,
+                        "Register",
+                        "User account registered.",
+                        true);
+
                     result = RedirectToAction(nameof(Login));
                 }
                 catch (InvalidOperationException exception)
                 {
+                    await _logService.LogUserEventAsync(
+                        null,
+                        "Register",
+                        exception.Message,
+                        false);
+
                     ModelState.AddModelError(string.Empty, exception.Message);
                     result = View(model);
                 }
@@ -107,6 +121,12 @@ namespace HomeInsurance_MVC.Controllers
 
                 if (authenticatedUser == null)
                 {
+                    await _logService.LogUserEventAsync(
+                        null,
+                        "Login",
+                        "Invalid email or password.",
+                        false);
+
                     ModelState.AddModelError(string.Empty, "Invalid email or password.");
                     result = View(model);
                 }
@@ -114,11 +134,24 @@ namespace HomeInsurance_MVC.Controllers
                 {
                     HttpContext.Session.SetString("CurrentUserId", authenticatedUser.UserID.ToString());
                     HttpContext.Session.SetString("CurrentUserName", authenticatedUser.FullName);
+
+                    await _logService.LogUserEventAsync(
+                        authenticatedUser.UserID,
+                        "Login",
+                        "User login successful.",
+                        true);
+
                     result = RedirectToAction("Index", "Items");
                 }
             }
             else
             {
+                await _logService.LogUserEventAsync(
+                    null,
+                    "Login",
+                    "Login model validation failed.",
+                    false);
+
                 result = View(model);
             }
 
@@ -129,8 +162,21 @@ namespace HomeInsurance_MVC.Controllers
         /// Logs the user out of the application by clearing the session.
         /// </summary>
         /// <returns>A redirect to the Home page.</returns>
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            string? sessionUserId = HttpContext.Session.GetString("CurrentUserId");
+            Guid? userId = null;
+            if (!string.IsNullOrWhiteSpace(sessionUserId))
+            {
+                userId = Guid.Parse(sessionUserId);
+            }
+
+            await _logService.LogUserEventAsync(
+                userId,
+                "Logout",
+                "User logged out.",
+                true);
+
             HttpContext.Session.Clear();
             IActionResult result = RedirectToAction("Index", "Home");
             return result;

@@ -25,14 +25,16 @@ namespace HomeInsurance_MVC.Controllers
     public class ItemsController : Controller
     {
         private readonly IItemService _itemService;
+        private readonly ILogService _logService;
 
         /// <summary>
         /// Initializes a new instance of the ItemsController class.
         /// </summary>
         /// <param name="itemService">The item service used for item business logic.</param>
-        public ItemsController(IItemService itemService)
+        public ItemsController(IItemService itemService, ILogService logService)
         {
             _itemService = itemService;
+            _logService = logService;
         }
 
         /// <summary>
@@ -146,6 +148,13 @@ namespace HomeInsurance_MVC.Controllers
             {
                 item.UserID = GetCurrentUserId();
                 await _itemService.CreateAsync(item);
+
+                await _logService.LogUserEventAsync(
+                    item.UserID,
+                    "ItemCreate",
+                    $"Item created: {item.ItemName}",
+                    true);
+
                 result = RedirectToAction(nameof(Index));
             }
             else
@@ -214,6 +223,12 @@ namespace HomeInsurance_MVC.Controllers
                 }
                 else
                 {
+                    await _logService.LogUserEventAsync(
+                        currentUserId,
+                        "ItemUpdate",
+                        $"Item updated: {item.ItemName}",
+                        true);
+
                     result = RedirectToAction(nameof(Index));
                 }
             }
@@ -267,6 +282,13 @@ namespace HomeInsurance_MVC.Controllers
         {
             Guid currentUserId = GetCurrentUserId();
             await _itemService.SoftDeleteAsync(id, currentUserId);
+
+            await _logService.LogUserEventAsync(
+                currentUserId,
+                "ItemDelete",
+                $"Item soft deleted: {id}",
+                true);
+
             IActionResult result = RedirectToAction(nameof(Index));
             return result;
         }
