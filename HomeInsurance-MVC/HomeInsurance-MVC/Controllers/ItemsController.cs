@@ -48,12 +48,14 @@ Returns views in Views/Items
 using HomeInsurance_MVC.Models;
 using HomeInsurance_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace HomeInsurance_MVC.Controllers
 {
     /// <summary>
     /// The ItemsController class processes requests related to inventory items.
     /// It provides CRUD functionality and connects item data to the user interface.
+    /// All actions require an authenticated session.
     /// </summary>
     public class ItemsController : Controller
     {
@@ -69,36 +71,56 @@ namespace HomeInsurance_MVC.Controllers
         }
 
         /// <summary>
+        /// Enforces authentication on every action in this controller by redirecting
+        /// unauthenticated visitors to the Login page.
+        /// </summary>
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            string? sessionUserId = HttpContext.Session.GetString("CurrentUserId");
+            if (string.IsNullOrEmpty(sessionUserId))
+            {
+                context.Result = RedirectToAction("Login", "Account");
+            }
+
+            base.OnActionExecuting(context);
+        }
+
+        /// <summary>
         /// Gets the current user identifier from session storage.
-        /// During early development, a fallback test identifier is used if no session value exists.
+        /// Assumes OnActionExecuting has already verified the session value exists.
         /// </summary>
         /// <returns>The current user's unique identifier.</returns>
         private Guid GetCurrentUserId()
         {
-            Guid currentUserId;
             string? sessionUserId = HttpContext.Session.GetString("CurrentUserId");
-
-            if (!string.IsNullOrEmpty(sessionUserId) && Guid.TryParse(sessionUserId, out Guid parsedUserId))
-            {
-                currentUserId = parsedUserId;
-            }
-            //REMOVE THIS LATER
-            else
-            {
-                currentUserId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-            }
-
+            Guid currentUserId = Guid.Parse(sessionUserId!);
             return currentUserId;
         }
 
         /// <summary>
         /// Retrieves and displays all items for the current user.
+        /// When a search string is provided, results are filtered by item name,
+        /// category, or room location (case-insensitive substring match).
         /// </summary>
-        /// <returns>The Items Index view with the user's items.</returns>
-        public async Task<IActionResult> Index()
+        /// <param name="searchString">Optional keyword for filtering items.</param>
+        /// <returns>The Items Index view with the matching items.</returns>
+        public async Task<IActionResult> Index(string? searchString)
         {
             Guid currentUserId = GetCurrentUserId();
             List<Item> items = await _itemService.GetAllByUserIdAsync(currentUserId);
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                string keyword = searchString.Trim().ToLowerInvariant();
+                items = items
+                    .Where(existingItem =>
+                        existingItem.ItemName.ToLowerInvariant().Contains(keyword)
+                        || existingItem.Category.ToLowerInvariant().Contains(keyword)
+                        || (existingItem.RoomLocation != null && existingItem.RoomLocation.ToLowerInvariant().Contains(keyword)))
+                    .ToList();
+            }
+
+            ViewData["SearchString"] = searchString;
             IActionResult result = View(items);
             return result;
         }

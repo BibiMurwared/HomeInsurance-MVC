@@ -28,10 +28,31 @@
         </div>
     </div>
 
+    <form asp-action="Index" method="get" class="row g-2 mb-4">
+        <div class="col-md-8">
+            <input type="text"
+                   name="searchString"
+                   value="@ViewData["SearchString"]"
+                   class="form-control"
+                   placeholder="Search by name, category, or room..." />
+        </div>
+        <div class="col-md-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+        </div>
+    </form>
+
     @if (Model == null || Model.Count == 0)
     {
         <div class="items-empty-alert">
-            <p>No items in inventory yet, <a asp-action="Create" asp-controller="Items">add an item!</a></p>
+            @if (!string.IsNullOrWhiteSpace(ViewData["SearchString"] as string))
+            {
+                <p>No items match your search. <a asp-action="Index">Show all items</a>.</p>
+            }
+            else
+            {
+                <p>No items in inventory yet, <a asp-action="Create" asp-controller="Items">add an item!</a></p>
+            }
         </div>
     }
     else
@@ -52,7 +73,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Where(i => !i.IsDeleted))
+                    @foreach (Item item in Model)
                     {
                         <tr>
                             <td><strong>@item.ItemName</strong></td>
@@ -87,15 +108,15 @@
 
                             <td>
                                 <a asp-action="Details" asp-route-id="@item.ItemID" class="btn btn-sm btn-info items-action-btn">
-                                    <i class="bi bi-eye"></i>
+                                    Show
                                 </a>
 
                                 <a asp-action="Edit" asp-route-id="@item.ItemID" class="btn btn-sm btn-warning items-action-btn">
-                                    <i class="bi bi-pencil"></i>
+                                    Edit
                                 </a>
 
                                 <a asp-action="Delete" asp-route-id="@item.ItemID" class="btn btn-sm btn-danger items-action-btn">
-                                    <i class="bi bi-trash"></i>
+                                    Delete
                                 </a>
                             </td>
                         </tr>
@@ -106,7 +127,7 @@
 
         <div class="row items-footer">
             <div class="col-12">
-                <p>Total Items: <strong>@Model.Count(i => !i.IsDeleted)</strong></p>
+                <p>Total Items: <strong>@Model.Count</strong></p>
             </div>
         </div>
     }

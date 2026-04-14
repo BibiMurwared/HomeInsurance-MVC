@@ -133,6 +133,8 @@ namespace HomeInsurance_MVC.Controllers
                 }
                 else
                 {
+                    HttpContext.Session.SetString("CurrentUserId", authenticatedUser.UserID.ToString());
+                    HttpContext.Session.SetString("CurrentUserName", authenticatedUser.FullName);
                     result = RedirectToAction("Index", "Items");
                 }
             }
@@ -145,11 +147,12 @@ namespace HomeInsurance_MVC.Controllers
         }
 
         /// <summary>
-        /// Logs the user out of the application.
+        /// Logs the user out of the application by clearing the session.
         /// </summary>
         /// <returns>A redirect to the Home page.</returns>
         public IActionResult Logout()
         {
+            HttpContext.Session.Clear();
             IActionResult result = RedirectToAction("Index", "Home");
             return result;
         }

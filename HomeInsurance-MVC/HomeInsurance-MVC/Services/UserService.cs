@@ -2,15 +2,15 @@ namespace HomeInsurance_MVC.Services
 {
     using HomeInsurance_MVC.Models;
     using HomeInsurance_MVC.Repositories;
-    using Microsoft.AspNetCore.Identity;
+    using BCryptNet = BCrypt.Net.BCrypt;
 
     /// <summary>
     /// Implements account logic on top of repository access.
+    /// Uses BCrypt to hash and verify user passwords.
     /// </summary>
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly PasswordHasher<User> _passwordHasher;
 
         /// <summary>
         /// Creates a service with repository dependencies.
@@ -18,7 +18,6 @@ namespace HomeInsurance_MVC.Services
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _passwordHasher = new PasswordHasher<User>();
         }
 
         /// <summary>
@@ -61,25 +60,21 @@ namespace HomeInsurance_MVC.Services
                 CreatedDate = DateTime.UtcNow
             };
 
-            user.PasswordHash = _passwordHasher.HashPassword(user, password);
+            user.PasswordHash = BCryptNet.HashPassword(password);
             await _userRepository.AddAsync(user);
             return user;
         }
 
         /// <summary>
-        /// Validates login credentials for one user.
+        /// Validates login credentials for one user using BCrypt verification.
         /// </summary>
         public async Task<User?> ValidateCredentialsAsync(string email, string password)
         {
             User? authenticatedUser = null;
             User? user = await _userRepository.GetByEmailAsync(email);
-            if (user is not null)
+            if (user is not null && BCryptNet.Verify(password, user.PasswordHash))
             {
-                PasswordVerificationResult verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
-                if (verificationResult == PasswordVerificationResult.Success)
-                {
-                    authenticatedUser = user;
-                }
+                authenticatedUser = user;
             }
 
             return authenticatedUser;

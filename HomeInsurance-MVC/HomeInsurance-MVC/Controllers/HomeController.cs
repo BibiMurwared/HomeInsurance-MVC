@@ -61,20 +61,39 @@ namespace HomeInsurance_MVC.Controllers
     /// </summary>
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Displays the landing page.
+        /// </summary>
+        /// <returns>The Home Index view.</returns>
         public IActionResult Index()
         {
-            return View();
+            IActionResult result = View();
+            return result;
         }
 
+        /// <summary>
+        /// Displays the privacy page.
+        /// </summary>
+        /// <returns>The Privacy view.</returns>
         public IActionResult Privacy()
         {
-            return View();
+            IActionResult result = View();
+            return result;
         }
 
+        /// <summary>
+        /// Displays the error page with the current request identifier.
+        /// </summary>
+        /// <returns>The Error view.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ErrorViewModel model = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            IActionResult result = View(model);
+            return result;
         }
     }
 }
