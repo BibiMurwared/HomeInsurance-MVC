@@ -43,46 +43,59 @@
                         <th>Item Name</th>
                         <th>Category</th>
                         <th>Location</th>
-                        <th>Estimated Value</th>
+                        <th>Value</th>
                         <th>Purchase Date</th>
+                        <th>Serial #</th>
+                        <th>Description</th>
+                        <th>Date Created</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Where(i => !i.IsDeleted))
                     {
                         <tr>
-                            <td>
-                                <strong>@item.ItemName</strong>
-                            </td>
+                            <td><strong>@item.ItemName</strong></td>
+
                             <td>
                                 <span class="badge">@item.Category</span>
                             </td>
+
                             <td>
                                 @(string.IsNullOrEmpty(item.RoomLocation) ? "—" : item.RoomLocation)
                             </td>
+
                             <td>
                                 $@item.EstimatedValue.ToString("F2")
                             </td>
+
                             <td>
-                                @if (item.PurchaseDate.HasValue)
-                                {
-                                    @item.PurchaseDate.Value.ToString("MM/dd/yyyy")
-                                }
-                                else
-                                {
-                                    <span class="text-muted">—</span>
-                                }
+                                @(item.PurchaseDate?.ToString("MM/dd/yyyy") ?? "—")
                             </td>
+
                             <td>
-                                <a asp-action="Details" asp-route-id="@item.ItemID" class="btn btn-sm btn-info items-action-btn" title="View Details">
-                                    <i class="bi bi-eye"></i> View
+                                @(string.IsNullOrEmpty(item.SerialNumber) ? "—" : item.SerialNumber)
+                            </td>
+
+                            <td>
+                                @(string.IsNullOrEmpty(item.Description) ? "—" : item.Description)
+                            </td>
+
+                            <td>
+                                @item.CreatedDate.ToString("MM/dd/yyyy")
+                            </td>
+
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.ItemID" class="btn btn-sm btn-info items-action-btn">
+                                    <i class="bi bi-eye"></i>
                                 </a>
-                                <a asp-action="Edit" asp-route-id="@item.ItemID" class="btn btn-sm btn-warning items-action-btn" title="Edit Item">
-                                    <i class="bi bi-pencil"></i> Edit
+
+                                <a asp-action="Edit" asp-route-id="@item.ItemID" class="btn btn-sm btn-warning items-action-btn">
+                                    <i class="bi bi-pencil"></i>
                                 </a>
-                                <a asp-action="Delete" asp-route-id="@item.ItemID" class="btn btn-sm btn-danger items-action-btn" title="Delete Item">
-                                    <i class="bi bi-trash"></i> Delete
+
+                                <a asp-action="Delete" asp-route-id="@item.ItemID" class="btn btn-sm btn-danger items-action-btn">
+                                    <i class="bi bi-trash"></i>
                                 </a>
                             </td>
                         </tr>
@@ -93,9 +106,7 @@
 
         <div class="row items-footer">
             <div class="col-12">
-                <p>
-                    Total Items: <strong>@Model.Count</strong>
-                </p>
+                <p>Total Items: <strong>@Model.Count(i => !i.IsDeleted)</strong></p>
             </div>
         </div>
     }
