@@ -86,10 +86,12 @@ namespace HomeInsurance_MVC.Models
 
         [Required]
         [StringLength(ValidationConstants.ItemNameMaxLength)]
+        [Display(Name = "Item Name *")]
         public string ItemName { get; set; } = string.Empty;
 
         [Required]
         [StringLength(ValidationConstants.ItemCategoryMaxLength)]
+        [Display(Name = "Category *")]
         public string Category { get; set; } = string.Empty;
 
         [StringLength(ValidationConstants.ItemDescriptionMaxLength)]
@@ -97,15 +99,19 @@ namespace HomeInsurance_MVC.Models
 
         [Required]
         [Range(typeof(decimal), ValidationConstants.MinEstimatedValue, ValidationConstants.MaxEstimatedValue)]
+        [Display(Name = "Estimated Value *")]
         public decimal EstimatedValue { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Purchase Date")]
         public DateTime? PurchaseDate { get; set; }
 
         [StringLength(ValidationConstants.RoomLocationMaxLength)]
+        [Display(Name = "Room Location")]
         public string? RoomLocation { get; set; }
 
         [StringLength(ValidationConstants.SerialNumberMaxLength)]
+        [Display(Name = "Serial Number")]
         public string? SerialNumber { get; set; }
 
         [Required]

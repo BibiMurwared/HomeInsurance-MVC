@@ -9,9 +9,90 @@
     The user enters the item details and submits the form to the controller. 
 *@
 
-namespace HomeInsurance_MVC.Views.Items
-{
-    public class Create
-    {
+@model HomeInsurance_MVC.Models.Item
+
+@{
+    ViewData["Title"] = "Create Item Entry";
+}
+
+<div class="container mt-4">
+    <div class="items-header">
+        <h1>Add New Item</h1>
+    </div>
+
+    <div class="card p-4 shadow-sm" style="border-radius: 10px;">
+        <form asp-action="Create" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+
+                <!-- Item Name -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ItemName" class="form-label"></label>
+                    <input asp-for="ItemName" class="form-control" />
+                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Category" class="form-label"></label>
+                    <input asp-for="Category" class="form-control" />
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+
+                <!-- Estimated Value -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="EstimatedValue" class="form-label"></label>
+                    <input asp-for="EstimatedValue" class="form-control" />
+                    <span asp-validation-for="EstimatedValue" class="text-danger"></span>
+                </div>
+
+                <!-- Purchase Date -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="PurchaseDate" class="form-label"></label>
+                    <input asp-for="PurchaseDate" class="form-control" type="date" />
+                    <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+                </div>
+
+                <!-- Room Location -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="RoomLocation" class="form-label"></label>
+                    <input asp-for="RoomLocation" class="form-control" />
+                    <span asp-validation-for="RoomLocation" class="text-danger"></span>
+                </div>
+
+                <!-- Serial Number -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="SerialNumber" class="form-label"></label>
+                    <input asp-for="SerialNumber" class="form-control" />
+                    <span asp-validation-for="SerialNumber" class="text-danger"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="col-12 mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <!-- Buttons for the bottom of the page -->
+            <div class="d-flex justify-content-between mt-3">
+                <a asp-action="Index" class="btn btn-secondary">Back</a>
+
+                <button type="submit" class="btn items-add-btn">
+                    Create Item
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
