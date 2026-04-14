@@ -1,3 +1,15 @@
+/*
+ * File: UserLog.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-14
+ * Description:
+ * This model represents user activity logs. It records important actions
+ * performed by users such as login attempts, item creation, updates,
+ * deletions, and other system interactions. These logs support auditing
+ * and tracking user behavior.
+ */
+
 namespace HomeInsurance_MVC.Models
 {
     using System.ComponentModel.DataAnnotations;

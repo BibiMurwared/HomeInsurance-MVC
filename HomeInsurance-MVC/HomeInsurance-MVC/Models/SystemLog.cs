@@ -1,3 +1,14 @@
+/*
+ * File: SystemLog.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-14
+ * Description:
+ * This model represents system-level error logs. It is used to capture
+ * unexpected exceptions and runtime failures occurring within the application.
+ * These logs help developers diagnose issues during development and after deployment.
+ */
+
 namespace HomeInsurance_MVC.Models
 {
     using System.ComponentModel.DataAnnotations;

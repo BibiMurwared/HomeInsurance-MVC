@@ -1,3 +1,16 @@
+/*
+ * File: LogService.cs
+ * Project: HomeInsurance-MVC
+ * Author(s): Mohammad
+ * Date: 2026-04-14
+ * Description:
+ * This service implements logging functionality for both user activity
+ * and system errors. It writes log records into the database using
+ * Entity Framework through the HomeInventoryContext.
+ * This ensures centralized logging and supports debugging, auditing,
+ * and monitoring of application behavior.
+ */
+
 namespace HomeInsurance_MVC.Services
 {
     using HomeInsurance_MVC.Data;
@@ -15,6 +28,10 @@ namespace HomeInsurance_MVC.Services
             _context = context;
         }
 
+
+        /// <summary>
+        /// Logs a user activity event.
+        /// </summary>
         public async Task LogUserEventAsync(Guid? userId, string action, string? details, bool isSuccess)
         {
             UserLog userLog = new UserLog
@@ -32,6 +49,10 @@ namespace HomeInsurance_MVC.Services
             return;
         }
 
+
+        /// <summary>
+        /// Logs a system error event.
+        /// </summary>
         public async Task LogSystemErrorAsync(string path, string message, string? stackTrace)
         {
             SystemLog systemLog = new SystemLog
